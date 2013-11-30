@@ -5,6 +5,7 @@
 #include <QMouseEvent>
 #include <QDrag>
 #include <QMimeData>
+#include <QGraphicsProxyWidget>
 
 #include <iostream>
 
@@ -26,8 +27,6 @@ QString Block::getText()
 
 void Block::mousePressEvent(QMouseEvent *event)
 {
-    cout << "Mouse Press! " << getText().toStdString() << endl;
-
     QByteArray itemData;
 
     QDataStream dataStream(&itemData, QIODevice::WriteOnly);
@@ -40,5 +39,6 @@ void Block::mousePressEvent(QMouseEvent *event)
     QDrag *drag = new QDrag(this);
     drag->setMimeData(mimeData);
     drag->setHotSpot(event->pos());
+    drag->setPixmap(this->grab());
     drag->exec(Qt::CopyAction | Qt::MoveAction, Qt::CopyAction);
 }
