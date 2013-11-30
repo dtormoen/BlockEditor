@@ -1,4 +1,5 @@
 #include "canvas.h"
+#include "block.h"
 
 #include <QLabel>
 #include <QDrag>
@@ -52,13 +53,12 @@ void Canvas::dropEvent(QDropEvent *event)
         QPoint offset;
         dataStream >> text >> offset;
 
-        QLabel *newLabel = new QLabel(this);
-        newLabel->setText(text);
-        newLabel->move(event->pos() - offset);
-        newLabel->show();
-        newLabel->setAttribute(Qt::WA_DeleteOnClose);
+        Block *block = new Block(text,this);
+        block->move(event->pos() - offset);
+        block->setAttribute(Qt::WA_DeleteOnClose);
+        block->show();
 
-        if (event->source() == this) {
+        if (event->source()->parent() == this) {
             event->setDropAction(Qt::MoveAction);
             event->accept();
         } else {
@@ -71,26 +71,4 @@ void Canvas::dropEvent(QDropEvent *event)
 
 void Canvas::mousePressEvent(QMouseEvent *event)
 {
-    QLabel *child = static_cast<QLabel*>(childAt(event->pos()));
-    if (!child)
-        return;
-
-    QString text = child->text();
-
-    QByteArray itemData;
-    QDataStream dataStream(&itemData, QIODevice::WriteOnly);
-    dataStream << text << QPoint(event->pos() - child->pos());
-
-    QMimeData *mimeData = new QMimeData;
-    mimeData->setData("application/x-dnditemdata", itemData);
-
-    QDrag *drag = new QDrag(this);
-    drag->setMimeData(mimeData);
-    drag->setHotSpot(event->pos() - child->pos());
-
-    if (drag->exec(Qt::CopyAction | Qt::MoveAction, Qt::CopyAction) == Qt::MoveAction) {
-        child->close();
-    } else {
-        child->show();
-    }
 }

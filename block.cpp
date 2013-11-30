@@ -40,5 +40,8 @@ void Block::mousePressEvent(QMouseEvent *event)
     drag->setMimeData(mimeData);
     drag->setHotSpot(event->pos());
     drag->setPixmap(this->grab());
-    drag->exec(Qt::CopyAction | Qt::MoveAction, Qt::CopyAction);
+    if (drag->exec(Qt::CopyAction | Qt::MoveAction, Qt::CopyAction) == Qt::MoveAction)
+    {
+        this->close();
+    }
 }
