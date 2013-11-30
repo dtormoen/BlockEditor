@@ -17,10 +17,12 @@ TEMPLATE = app
 SOURCES += main.cpp\
         mainwindow.cpp \
     blockmenu.cpp \
-    canvas.cpp
+    canvas.cpp \
+    block.cpp
 
 HEADERS  += mainwindow.h \
     blockmenu.h \
-    canvas.h
+    canvas.h \
+    block.h
 
 FORMS    += mainwindow.ui

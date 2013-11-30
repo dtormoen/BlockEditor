@@ -8,6 +8,9 @@ class BlockMenu : public QFrame
 public:
     BlockMenu();
 
+private:
+    void buildMenu();
+
 protected:
     void dragEnterEvent(QDragEnterEvent *event);
     void dragMoveEvent(QDragMoveEvent *event);

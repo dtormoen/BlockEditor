@@ -1,10 +1,17 @@
 #include "blockmenu.h"
+#include "block.h"
 
 #include <QLabel>
 #include <QDrag>
 #include <QDragEnterEvent>
 #include <QMimeData>
 #include <QPainter>
+#include <QVBoxLayout>
+#include <QHBoxLayout>
+
+#include <iostream>
+
+using namespace std;
 
 BlockMenu::BlockMenu()
 {
@@ -12,11 +19,40 @@ BlockMenu::BlockMenu()
     setFrameStyle(QFrame::Sunken | QFrame::StyledPanel);
     setAcceptDrops(true);
 
-    QLabel *label = new QLabel(this);
-    label->setText("Hi");
-    label->move(10, 10);
-    label->show();
-    label->setAttribute(Qt::WA_DeleteOnClose);
+    buildMenu();
+}
+
+void BlockMenu::buildMenu()
+{
+    vector<QString> blocks;
+    blocks.push_back("These");
+    blocks.push_back("Are");
+    blocks.push_back("blocks");
+    blocks.push_back("And");
+    blocks.push_back("I");
+    blocks.push_back("Am");
+    blocks.push_back("Testing");
+    blocks.push_back("Them");
+
+
+    QVBoxLayout *vLayout = new QVBoxLayout(this);
+    int hSize = 2;
+    int locCount = 0;
+    QHBoxLayout *hLayout = new QHBoxLayout();
+    for (QString block : blocks)
+    {
+        if (locCount == hSize)
+        {
+            vLayout->addLayout(hLayout);
+            hLayout = new QHBoxLayout();
+            locCount = 0;
+        }
+        Block *temp = new Block(block);
+//        temp->setAttribute(Qt::WA_DeleteOnClose);
+        hLayout->addWidget(temp);
+        locCount++;
+    }
+    vLayout->addLayout(hLayout);
 }
 
 
@@ -36,54 +72,41 @@ void BlockMenu::dragEnterEvent(QDragEnterEvent *event)
 
 void BlockMenu::dragMoveEvent(QDragMoveEvent *event)
 {
-    if (event->mimeData()->hasFormat("application/x-dnditemdata")) {
-        if (event->source() == this) {
+    if (event->mimeData()->hasFormat("application/x-dnditemdata"))
+    {
+        if (event->source() == this)
+        {
             event->setDropAction(Qt::MoveAction);
             event->accept();
-        } else {
+        } else
+        {
             event->acceptProposedAction();
         }
-    } else {
+    }
+    else
+    {
         event->ignore();
     }
 }
 
 void BlockMenu::dropEvent(QDropEvent *event)
 {
-    if (event->mimeData()->hasFormat("application/x-dnditemdata")) {
-        if (event->source() == this) {
+    if (event->mimeData()->hasFormat("application/x-dnditemdata"))
+    {
+        if (event->source() == this)
+        {
             event->ignore();
-        } else {
+        } else
+        {
             event->setDropAction(Qt::MoveAction);
             event->accept();
         }
-    } else {
+    } else
+    {
         event->ignore();
     }
 }
 
 void BlockMenu::mousePressEvent(QMouseEvent *event)
 {
-    QLabel *child = static_cast<QLabel*>(childAt(event->pos()));
-    if (!child)
-        return;
-
-    QString text = child->text();
-
-    QByteArray itemData;
-    QDataStream dataStream(&itemData, QIODevice::WriteOnly);
-    dataStream << text << QPoint(event->pos() - child->pos());
-
-    QMimeData *mimeData = new QMimeData;
-    mimeData->setData("application/x-dnditemdata", itemData);
-
-    QDrag *drag = new QDrag(this);
-    drag->setMimeData(mimeData);
-    drag->setHotSpot(event->pos() - child->pos());
-
-    if (drag->exec(Qt::CopyAction | Qt::MoveAction, Qt::CopyAction) == Qt::MoveAction) {
-        child->close();
-    } else {
-        child->show();
-    }
 }
