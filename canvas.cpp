@@ -53,10 +53,10 @@ void Canvas::dropEvent(QDropEvent *event)
         QPoint offset;
         dataStream >> text >> offset;
 
-        Block *block = new Block(text,this);
-        block->move(event->pos() - offset);
-        block->setAttribute(Qt::WA_DeleteOnClose);
-        block->show();
+//        Block *block = new Block(text,this);
+//        block->move(event->pos() - offset);
+//        block->setAttribute(Qt::WA_DeleteOnClose);
+//        block->show();
 
         if (event->source()->parent() == this) {
             event->setDropAction(Qt::MoveAction);

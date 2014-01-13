@@ -2,6 +2,7 @@
 #define BLOCKMENU_H
 
 #include <QFrame>
+#include <QGraphicsWidget>
 
 class BlockMenu : public QFrame
 {

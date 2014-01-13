@@ -34,13 +34,16 @@ void BlockMenu::buildMenu()
     blocks.push_back("Testing");
     blocks.push_back("Them");
 
-
     QVBoxLayout *vLayout = new QVBoxLayout(this);
+
     int hSize = 2;
     int locCount = 0;
+
     QHBoxLayout *hLayout = new QHBoxLayout();
+
     for (QString block : blocks)
     {
+        cout << "Adding Block" << endl;
         if (locCount == hSize)
         {
             vLayout->addLayout(hLayout);
@@ -49,7 +52,7 @@ void BlockMenu::buildMenu()
         }
         Block *temp = new Block(block);
 //        temp->setAttribute(Qt::WA_DeleteOnClose);
-        hLayout->addWidget(temp);
+        hLayout->addWidget(new DummyBlock(temp));
         locCount++;
     }
     vLayout->addLayout(hLayout);
