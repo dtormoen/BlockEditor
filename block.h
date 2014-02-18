@@ -13,8 +13,6 @@ public:
     QString getText();
 protected:
     QSizeF sizeHint(Qt::SizeHint which, const QSizeF &constraint) const;
-
-    void mousePressEvent(QMouseEvent *event);
 private:
     QString blockText;
 };
@@ -23,6 +21,8 @@ class DummyBlock : public QLabel
 {
 public:
     DummyBlock(Block *block);
+private:
+    void mousePressEvent(QMouseEvent *event);
 };
 
 #endif // BLOCK_H

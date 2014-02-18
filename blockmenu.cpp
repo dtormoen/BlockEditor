@@ -15,7 +15,7 @@ using namespace std;
 
 BlockMenu::BlockMenu()
 {
-    setMinimumSize(200, 200);
+    setMinimumSize(250, 200);
     setFrameStyle(QFrame::Sunken | QFrame::StyledPanel);
     setAcceptDrops(true);
 

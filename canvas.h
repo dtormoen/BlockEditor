@@ -2,17 +2,19 @@
 #define CANVAS_H
 
 #include <QFrame>
+#include <QGraphicsScene>
 
-class Canvas : public QFrame
+class Canvas : public QGraphicsScene
 {
 public:
     Canvas();
 
 protected:
-    void dragEnterEvent(QDragEnterEvent *event);
-    void dragMoveEvent(QDragMoveEvent *event);
-    void dropEvent(QDropEvent *event);
-    void mousePressEvent(QMouseEvent *event);
+    void dragEnterEvent(QGraphicsSceneDragDropEvent *event);
+    void dragLeaveEvent(QGraphicsSceneDragDropEvent *event);
+    void dragMoveEvent(QGraphicsSceneDragDropEvent *event);
+    void dropEvent(QGraphicsSceneDragDropEvent  *event);
+    void mousePressEvent(QGraphicsSceneMouseEvent *event);
 };
 
 #endif // CANVAS_H
